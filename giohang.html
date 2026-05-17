@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Giỏ hàng</title>
+
+    <link rel="stylesheet"
+    href="./css/style.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="container">
+
+        <div class="logo">
+
+            <a href="index.html">
+
+                <img src="./img/logo.png">
+
+            </a>
+
+        </div>
+
+        <nav class="menu">
+
+            <ul>
+
+                <li><a href="iphone.html">iPhone</a></li>
+
+                <li><a href="samsung.html">SamSung</a></li>
+
+                <li><a href="xiaomi.html">Xiaomi</a></li>
+
+                <li><a href="vivo.html">Vivo</a></li>
+
+                <li><a href="oppo.html">Oppo</a></li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<section class="cart-page">
+
+    <div class="cart-box">
+
+        <h1>Giỏ hàng của bạn</h1>
+
+        <div class="cart-product">
+
+            <img id="cart-img">
+
+            <div class="cart-info">
+
+                <h2 id="cart-name"></h2>
+
+                <p class="cart-price"
+                id="cart-price"></p>
+
+            </div>
+
+        </div>
+
+        <div class="customer-form">
+
+            <h2>Thông tin khách hàng</h2>
+
+            <input type="text"
+            id="name"
+            placeholder="Họ và tên">
+
+            <input type="text"
+            id="phone"
+            placeholder="Số điện thoại">
+
+            <input type="text"
+            id="address"
+            placeholder="Địa chỉ nhận hàng">
+
+        </div>
+
+        <button class="order-btn"
+        onclick="orderSuccess()">
+
+            Đặt hàng
+
+        </button>
+
+    </div>
+
+</section>
+
+<div class="success-popup"
+id="successPopup">
+
+    <div class="popup-box">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <h2>Mua hàng thành công!</h2>
+
+        <p>Cảm ơn bạn đã đặt hàng.</p>
+
+        <button onclick="closePopup()">
+
+            OK
+
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+//LẤY DỮ LIỆU
+
+let cartProduct =
+JSON.parse(localStorage.getItem("cartProduct"));
+
+let orderedProducts =
+JSON.parse(localStorage.getItem("orderedProducts")) || [];
+
+let cartBox =
+document.querySelector(".cart-box");
+
+// NẾU ĐANG MUA HÀNG
+
+if(cartProduct){
+
+    document.getElementById("cart-img").src =
+    cartProduct.image;
+
+    document.getElementById("cart-name").innerText =
+    cartProduct.name;
+
+    document.getElementById("cart-price").innerText =
+    cartProduct.price;
+}
+
+//NẾU KHÔNG ĐANG MUA
+
+else{
+
+    document.querySelector(".cart-product").style.display =
+    "none";
+
+    document.querySelector(".customer-form").style.display =
+    "none";
+
+    document.querySelector(".order-btn").style.display =
+    "none";
+}
+
+//HIỆN DANH SÁCH ĐÃ ĐẶT
+
+if(orderedProducts.length > 0){
+
+    let allProduct = "";
+
+    orderedProducts.forEach(product => {
+
+        allProduct += `
+
+        <div class="cart-product">
+
+            <img src="${product.image}">
+
+            <div class="cart-info">
+
+                <h2>${product.name}</h2>
+
+                <p class="cart-price">
+                    ${product.price}
+                </p>
+
+                <div style="
+                display:flex;
+                align-items:center;
+                gap:15px;
+                margin-top:10px;">
+
+                    <p style="
+                    color:#00ff66;
+                    font-weight:bold;
+                    ">
+                        Đặt hàng thành công
+                    </p>
+
+                    <button onclick="cancelOrder(${orderedProducts.indexOf(product)})"
+                    style="
+                    background:red;
+                    color:white;
+                    border:none;
+                    padding:8px 14px;
+                    border-radius:8px;
+                    cursor:pointer;
+                    font-weight:bold;
+                    ">
+                        Hủy mua hàng
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    cartBox.innerHTML += allProduct;
+}
+
+if(!cartProduct && orderedProducts.length == 0){
+
+    cartBox.innerHTML += `
+
+        <h2 style="
+            color:white;
+            text-align:center;
+            padding:30px 0;
+        ">
+            Chưa có sản phẩm nào
+        </h2>
+
+    `;
+}
+
+// ĐẶT HÀNG
+
+function orderSuccess(){
+
+    let name =
+    document.getElementById("name").value;
+
+    let phone =
+    document.getElementById("phone").value;
+
+    let address =
+    document.getElementById("address").value;
+
+    if(name == "" ||
+       phone == "" ||
+       address == ""){
+
+        alert("Vui lòng nhập đầy đủ thông tin!");
+
+        return;
+    }
+
+    orderedProducts.push(cartProduct);
+
+    localStorage.setItem(
+        "orderedProducts",
+        JSON.stringify(orderedProducts)
+    );
+
+    localStorage.removeItem("cartProduct");
+
+    alert("Đặt hàng thành công!");
+
+    location.reload();
+}
+
+// HỦY ĐƠN 
+
+function cancelOrder(index){
+
+    orderedProducts.splice(index,1);
+
+    localStorage.setItem(
+        "orderedProducts",
+        JSON.stringify(orderedProducts)
+    );
+
+    location.reload();
+}
+
+</script>
+
+</body>
+
+</html>
