@@ -1499,3 +1499,37 @@ img{
     }
 
 }
+@media(max-width:768px){
+
+    .detail-wrap,
+    .product-detail,
+    .product-box,
+    .box-sp{
+        flex-direction:column;
+        width:100%;
+    }
+
+    .detail-left,
+    .detail-right,
+    .product-info,
+    .product-img{
+        width:100%;
+    }
+
+    .detail-left img,
+    .product-img img{
+        width:100%;
+        height:auto;
+    }
+
+    table{
+        width:100%;
+        overflow-x:auto;
+        display:block;
+    }
+
+    iframe{
+        width:100%;
+    }
+
+}
