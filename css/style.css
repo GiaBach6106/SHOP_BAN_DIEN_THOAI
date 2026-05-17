@@ -1614,3 +1614,77 @@ img{
     }
 
 }
+/* MOBILE */
+@media (max-width: 768px){
+
+    /* HEADER */
+    header{
+        padding: 10px;
+    }
+
+    .menu{
+        gap: 12px;
+        font-size: 15px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* SEARCH */
+    .search-box{
+        width: 90%;
+        height: 42px;
+        margin: 12px auto;
+    }
+
+    /* SLIDER */
+    .banner{
+        height: auto;
+    }
+
+    .banner img{
+        width: 100%;
+        border-radius: 0;
+    }
+
+    /* PRODUCT */
+    .product-container{
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .product-card{
+        border-radius: 14px;
+        padding: 10px;
+    }
+
+    .product-card img{
+        width: 100%;
+        height: auto;
+    }
+
+    .product-name{
+        font-size: 15px;
+    }
+
+    .product-price{
+        font-size: 16px;
+    }
+
+    /* CAM KET */
+    .commitment{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 20px;
+        padding: 20px 10px;
+        text-align: center;
+    }
+
+    .commitment-item{
+        font-size: 14px;
+    }
+
+    .commitment-item i{
+        font-size: 28px;
+    }
+}
